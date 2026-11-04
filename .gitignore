@@ -1,0 +1,11 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.vsidx
+[Bb]in/
+[Oo]bj/
+
+# Build files
+Debug/
+Release/

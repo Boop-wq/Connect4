@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include<algorithm>
 
 #include "IGame.h"
 #include "Board.h"

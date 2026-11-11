@@ -88,3 +88,36 @@ void Game::SwitchPlayer()
 		m_currentPlayer = EPiece::Red;
 }
 
+void Game::UpdateState(int row, int column)
+{
+	if (m_board.IsWinningMove(row, column))
+		m_state = EGameState::Win;
+	else if (m_board.IsFull())
+		m_state = EGameState::Draw;
+	else
+		m_state = EGameState::Playing;
+}
+
+void Game::NotifyMoveMade(int row, int column, EPiece piece)
+{
+	for (IGameListener* listener : m_listeners)
+	{
+		listener->OnMoveMade(row, column, piece);
+	}
+}
+
+void Game::NotifyGameOver()
+{
+	for (IGameListener* listener : m_listeners)
+	{
+		listener->OnGameOver(m_state);
+	}
+}
+
+void Game::NotifyGameRestarted()
+{
+	for (IGameListener* listener : m_listeners)
+	{
+		listener->OnGameRestarted();
+	}
+}

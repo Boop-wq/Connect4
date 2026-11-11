@@ -8,7 +8,7 @@
 class Board
 {
 public:
-    Board();
+    Board();   
 
     void Clear();
     bool IsInside(int row, int column) const;

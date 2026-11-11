@@ -23,6 +23,9 @@ public:
 private:
     void SwitchPlayer();
     void UpdateState(int row, int column);
+    void NotifyMoveMade(int row, int column, EPiece piece);
+    void NotifyGameOver();
+    void NotifyGameRestarted();
 
 
     Board m_board;

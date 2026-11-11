@@ -32,7 +32,6 @@ EMoveResult Game:: MakeMove(int column) const
 
 }
 
-
 void Game::Restart()
 {
 	m_board.Clear();
@@ -79,5 +78,13 @@ void Game::RemoveListener(IGameListener *listener)
 	else {
 		return;
 	}
+}
+
+void Game::SwitchPlayer()
+{
+	if (m_currentPlayer == EPiece::Red)
+		m_currentPlayer = EPiece::Yellow;
+	else
+		m_currentPlayer = EPiece::Red;
 }
 

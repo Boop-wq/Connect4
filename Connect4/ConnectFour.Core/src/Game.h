@@ -2,6 +2,7 @@
 
 #include <vector>
 #include<algorithm>
+#include<memory>
 
 #include "IGame.h"
 #include "Board.h"
@@ -10,6 +11,8 @@ class Game : public IGame
 {
 public:
     Game();
+
+    std::shared_ptr<IGame> IGame::Create();
 
     EMoveResult MakeMove(int column) override;
     void Restart() override;

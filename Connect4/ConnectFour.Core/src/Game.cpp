@@ -1,12 +1,14 @@
 #include"Game.h"
 #include"Board.h"
 
-Game::Game()
+Game::Game():
+	m_currentPlayer(EPiece::Red),
+	m_state(EGameState::Playing)
 {
 
 }
 
-EMoveResult Game:: MakeMove(int column) const
+EMoveResult Game::MakeMove(int column)
 {
 	if (m_state != EGameState::Playing)
 		return EMoveResult::GameOver;
@@ -61,11 +63,9 @@ void Game::AddListener(IGameListener *listener)
 	if(listener==nullptr)
 		return;
 	auto it = std::find(m_listeners.begin(), m_listeners.end(), listener);
-	if (it != m_listeners.end())
+	if (it == m_listeners.end())
 		m_listeners.push_back(listener);
-	else {
-		return;
-	}	
+		
 }
 
 void Game::RemoveListener(IGameListener *listener)
@@ -75,9 +75,7 @@ void Game::RemoveListener(IGameListener *listener)
 	auto it = std::find(m_listeners.begin(), m_listeners.end(), listener);
 	if(it != m_listeners.end())
 		m_listeners.erase(it);
-	else {
-		return;
-	}
+	
 }
 
 void Game::SwitchPlayer()
@@ -91,11 +89,10 @@ void Game::SwitchPlayer()
 void Game::UpdateState(int row, int column)
 {
 	if (m_board.IsWinningMove(row, column))
-		m_state = EGameState::Win;
+		m_state = (m_currentPlayer == EPiece::Red) ? EGameState::RedWon : EGameState::YellowWon;
 	else if (m_board.IsFull())
 		m_state = EGameState::Draw;
-	else
-		m_state = EGameState::Playing;
+
 }
 
 void Game::NotifyMoveMade(int row, int column, EPiece piece)
@@ -120,4 +117,9 @@ void Game::NotifyGameRestarted()
 	{
 		listener->OnGameRestarted();
 	}
+}
+
+std::shared_ptr<IGame> Game::Create()
+{
+	return std::make_shared<Game>();
 }
